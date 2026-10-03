@@ -72,3 +72,6 @@ def show_suspicious(times_dict):
 detected_errors = times_by_ip(read_failures('SSH.log'))
 
 show_suspicious(detected_errors)
+
+print(len(detected_errors))
+
