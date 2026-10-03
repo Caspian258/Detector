@@ -1,3 +1,10 @@
+examples = [
+    'Dec 10 06:55:48 LabSZ sshd[24200]: test',
+    'Jan  1 10:00:00 LabSZ sshd[24200]: test',
+    'Jan  7 10:00:00 LabSZ sshd[24200]: test'
+]
+
+
 def read_failures(data_base):
     with open(data_base, 'r') as file:
         errors = []
@@ -68,6 +75,15 @@ def show_suspicious(times_dict):
         if is_suspicious(times):
             print(ip)
 
+def extract_day(line):
+    words = line.split()
+    month = words[0]
+    day = int(words[1])
+    if month == 'Jan':
+        day = 31 + day
+    
+    return day
+
 
 detected_errors = times_by_ip(read_failures('SSH.log'))
 
@@ -75,3 +91,6 @@ show_suspicious(detected_errors)
 
 print(len(detected_errors))
 
+for line in examples:
+    day = extract_day(line)
+    print(day)
