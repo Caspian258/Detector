@@ -1,6 +1,32 @@
 import argparse
 import csv
 
+def main():
+    # Command line: the log file path is required, for example
+    # "python analyzer.py SSH.log". argparse also builds the -h help message.
+    parser = argparse.ArgumentParser(
+        description='SSH log analyzer that detects suspicious IP addresses'
+    )
+
+    parser.add_argument('log_path', help='Path to the SSH log file to analyze')
+
+    args = parser.parse_args()
+
+    # Main flow: read the failed lines, group their moments by IP, print the
+    # suspicious IPs, then print how many different IPs there are in total.
+    detected_errors = times_by_ip(read_failures(args.log_path))
+
+    show_suspicious(detected_errors)
+
+    print(len(detected_errors))
+
+    # Export the full report (IP, failures, suspicious) to a CSV file.
+    write_csv(
+        'report.csv',
+        group_by_ip(read_failures(args.log_path)),
+        detected_errors
+    )
+
 
 def read_failures(data_base):
     # Open the log file in read mode. "with" closes the file automatically
@@ -134,28 +160,5 @@ def write_csv(path, ip_failures, times_dict):
             suspicious = is_suspicious(times_dict[ip])
             writer.writerow([ip, failures, suspicious])
 
-
-# Command line: the log file path is required, for example
-# "python analyzer.py SSH.log". argparse also builds the -h help message.
-parser = argparse.ArgumentParser(
-    description='SSH log analyzer that detects suspicious IP addresses'
-)
-
-parser.add_argument('log_path', help='Path to the SSH log file to analyze')
-
-args = parser.parse_args()
-
-# Main flow: read the failed lines, group their moments by IP, print the
-# suspicious IPs, then print how many different IPs there are in total.
-detected_errors = times_by_ip(read_failures(args.log_path))
-
-show_suspicious(detected_errors)
-
-print(len(detected_errors))
-
-# Export the full report (IP, failures, suspicious) to a CSV file.
-write_csv(
-    'report.csv',
-    group_by_ip(read_failures(args.log_path)),
-    detected_errors
-)
+if __name__ == "__main__":
+    main()
