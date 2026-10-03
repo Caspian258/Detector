@@ -1,10 +1,3 @@
-examples = [
-    'Dec 10 06:55:48 LabSZ sshd[24200]: test',
-    'Jan  1 10:00:00 LabSZ sshd[24200]: test',
-    'Jan  7 10:00:00 LabSZ sshd[24200]: test'
-]
-
-
 def read_failures(data_base):
     with open(data_base, 'r') as file:
         errors = []
@@ -49,7 +42,7 @@ def times_by_ip(lines):
     ip_attempts_time = {}
     for line in lines:
         ip = extract_ip(line)
-        seconds = to_seconds(extract_time(line))
+        seconds = to_seconds(extract_time(line)) + 86400 * extract_day(line)
 
         if ip in ip_attempts_time:
             ip_attempts_time[ip].append(seconds)
@@ -90,7 +83,3 @@ detected_errors = times_by_ip(read_failures('SSH.log'))
 show_suspicious(detected_errors)
 
 print(len(detected_errors))
-
-for line in examples:
-    day = extract_day(line)
-    print(day)
