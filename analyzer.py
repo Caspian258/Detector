@@ -1,3 +1,5 @@
+import argparse
+
 def read_failures(data_base):
     with open(data_base, 'r') as file:
         errors = []
@@ -78,7 +80,13 @@ def extract_day(line):
     return day
 
 
-detected_errors = times_by_ip(read_failures('SSH.log'))
+parser = argparse.ArgumentParser(description='SSH log analyzer that detects suspicious IP addresses')
+
+parser.add_argument('log_path', help='Path to the SSH log file to analyze')
+
+args = parser.parse_args()
+
+detected_errors = times_by_ip(read_failures(args.log_path))
 
 show_suspicious(detected_errors)
 
