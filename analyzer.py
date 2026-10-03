@@ -80,13 +80,15 @@ def extract_day(line):
     
     return day
 
-def write_csv(path, ip_failures):
-    header = ['IP', 'Failures']
+def write_csv(path, ip_failures, times_dict):
+    header = ['IP', 'Failures', 'Suspicious']
     with open(path, mode="w", encoding="utf-8", newline="") as f_exit:
         writer = csv.writer(f_exit)
         writer.writerow(header)
-        writer.writerows(ip_failures.items())
 
+        for ip, failures in ip_failures.items():
+            suspicious = is_suspicious(times_dict[ip])
+            writer.writerow([ip, failures, suspicious])
 
 
 parser = argparse.ArgumentParser(description='SSH log analyzer that detects suspicious IP addresses')
@@ -101,4 +103,4 @@ show_suspicious(detected_errors)
 
 print(len(detected_errors))
 
-write_csv('report.csv', group_by_ip(read_failures(args.log_path)))
+write_csv('report.csv', group_by_ip(read_failures(args.log_path)), detected_errors)
