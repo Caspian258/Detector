@@ -41,6 +41,20 @@ def to_seconds(time_text):
 
     return total_time
 
+def times_by_ip(lines):
+    ip_attempts_time = {}
+    for line in lines:
+        ip = extract_ip(line)
+        seconds = to_seconds(extract_time(line))
+
+        if ip in ip_attempts_time:
+            ip_attempts_time[ip].append(seconds)
+            
+        else:
+            ip_attempts_time[ip] = [seconds]
+            
+    return ip_attempts_time
+
 
 failed_attempts = len(read_failures('SSH.log'))
 
@@ -52,5 +66,5 @@ print(f'There are: {sum(ip_failures.values())} failed attempts')
 for line in example:
     print(extract_time(line))
     print(to_seconds(extract_time(line)))
-
+    print(times_by_ip(extract_ip(line)))
 
