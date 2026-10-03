@@ -30,6 +30,18 @@ def extract_time(line):
     time = line[7:15]
     return time
 
+def to_seconds(time_text):
+    time = time_text.split(':')
+
+    hours = int(time[0]) * 3600
+    minutes = int(time[1]) * 60
+    seconds = int(time[2])
+
+    total_time = hours + minutes + seconds
+
+    return total_time
+
+
 failed_attempts = len(read_failures('SSH.log'))
 
 ip_failures = group_by_ip(read_failures('SSH.log'))
@@ -39,3 +51,6 @@ print(f'There are: {sum(ip_failures.values())} failed attempts')
 
 for line in example:
     print(extract_time(line))
+    print(to_seconds(extract_time(line)))
+
+
