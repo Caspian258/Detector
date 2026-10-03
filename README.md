@@ -93,7 +93,11 @@ IPs. Adding the day removed 7 false positives, so the final number is 481.
 - The log lines have no year. The tool counts days from December 1st and
   assumes the log only crosses from December to January once.
 - The rule is fixed (3 failures, 300 seconds). Slow attacks that spread
-  their attempts over hours are not detected.
+  their attempts over hours are not detected. On `SSH.log` the tool flags
+  481 of 1008 IPs, but `115.71.16.143` has 569 failed attempts and is not
+  flagged: in its first 10 attempts the failures are about 25 minutes apart
+  and the usernames change (`inspur`, then `htc`), so no 5-minute window
+  contains 3 of them.
 - Only `Failed password` lines are analyzed. Other kinds of failures, such
   as `Invalid user` lines without a password attempt, are ignored.
 
