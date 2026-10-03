@@ -36,13 +36,20 @@ IP,Failures,Suspicious
 
 Requirements: Python 3 (only the standard library is used).
 
-1. Get the OpenSSH log from the [Loghub](https://github.com/logpai/loghub)
-   dataset and save it as `SSH.log` in the project folder. The log is not
-   included in this repository.
-2. Run:
+1. Clone the repository and enter the folder:
 
 ```
-python analyzer.py SSH.log
+   git clone https://github.com/Caspian258/Detector.git
+   cd Detector
+```
+
+2. Get the OpenSSH log from the [Loghub](https://github.com/logpai/loghub)
+   dataset and save it as `SSH.log` in the project folder. The log is not
+   included in this repository.
+3. Run:
+
+```
+   python analyzer.py SSH.log
 ```
 
 Use `python analyzer.py -h` to see the help message.
