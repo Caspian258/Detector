@@ -1,4 +1,5 @@
 import argparse
+import csv
 
 def read_failures(data_base):
     with open(data_base, 'r') as file:
@@ -79,6 +80,14 @@ def extract_day(line):
     
     return day
 
+def write_csv(path, ip_failures):
+    header = ['IP', 'Failures']
+    with open(path, mode="w", encoding="utf-8", newline="") as f_exit:
+        writer = csv.writer(f_exit)
+        writer.writerow(header)
+        writer.writerows(ip_failures.items())
+
+
 
 parser = argparse.ArgumentParser(description='SSH log analyzer that detects suspicious IP addresses')
 
@@ -91,3 +100,5 @@ detected_errors = times_by_ip(read_failures(args.log_path))
 show_suspicious(detected_errors)
 
 print(len(detected_errors))
+
+write_csv('report.csv', group_by_ip(read_failures(args.log_path)))
