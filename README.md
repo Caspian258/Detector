@@ -99,11 +99,13 @@ IPs. Adding the day removed 7 false positives, so the final number is 481.
 
 ## What I learned and what I would improve
 
-- Working with the time of day alone was not enough: failures from
-  different days at the same hour looked close to each other. Including the
-  day made the detection more reliable.
-- I verified the code step by step: the sum of failures per IP matches the
-  197,587 lines counted directly.
-- Next improvements: choose the thresholds with command-line options, also
-  compare failures against later `Accepted` logins from the same IP, and
-  add automated tests.
+- I learned to work with files from my code and reinforced dictionaries and
+  lists. I also learned two libraries I did not know, `csv` and `argparse`.
+  Both are very important, but `argparse` was my favorite because it lets the
+  user interact with the program.
+- The hardest part was the logic: turning "3 failures in 300 seconds" into
+  code. Splitting each line to get only the time and the date was also
+  difficult, but reading the documentation solved it.
+- This is the first version, made to practice and improve. Logs like this can
+  show other kinds of attacks that my code does not cover yet, so I should
+  extend it to handle more cases.
