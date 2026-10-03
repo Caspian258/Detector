@@ -56,14 +56,20 @@ def times_by_ip(lines):
     return ip_attempts_time
 
 def is_suspicious(times):
-    with_orden = sorted(times)
+    sorted_times = sorted(times)
     for position in range(len(times) - 2):
-        difference = with_orden[position + 2] - with_orden[position]
+        difference = sorted_times[position + 2] - sorted_times[position]
 
         if difference <= 300:
             return True
     return False
 
+def show_suspicious(times_dict):
+    for ip in times_dict:
+        times = times_dict[ip]
+
+        if is_suspicious(times):
+            print(ip)
 
 
 failed_attempts = len(read_failures('SSH.log'))
@@ -86,3 +92,5 @@ print(len(test['173.234.31.186']))
 print(is_suspicious([100, 200, 350]))
 print(is_suspicious([100, 500, 900]))
 print(is_suspicious([100, 200]))
+
+show_suspicious({'1.1.1.1': [100, 200, 350], '2.2.2.2': [100, 500, 900]})
