@@ -92,8 +92,6 @@ IPs. Adding the day removed 7 false positives, so the final number is 481.
 
 ## What I learned and what I would improve
 
-*(Draft: edit it in your own words.)*
-
 - Working with the time of day alone was not enough: failures from
   different days at the same hour looked close to each other. Including the
   day made the detection more reliable.
