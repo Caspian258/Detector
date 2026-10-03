@@ -1,6 +1,3 @@
-example = ['Dec 10 06:55:48 LabSZ sshd[24200]: Failed password for invalid user webmaster from 173.234.31.186 port 38926 ssh2', 
-           'Dec 10 07:13:43 LabSZ sshd[24227]: Failed password for root from 5.36.59.76 port 42393 ssh2']
-
 def read_failures(data_base):
     with open(data_base, 'r') as file:
         errors = []
@@ -72,25 +69,6 @@ def show_suspicious(times_dict):
             print(ip)
 
 
-failed_attempts = len(read_failures('SSH.log'))
+detected_errors = times_by_ip(read_failures('SSH.log'))
 
-ip_failures = group_by_ip(read_failures('SSH.log'))
-
-print(f'There are: {failed_attempts} failed attempts')
-print(f'There are: {sum(ip_failures.values())} failed attempts')
-
-for line in example:
-    print(extract_time(line))
-    print(to_seconds(extract_time(line)))
-
-print(times_by_ip(example))
-
-test = times_by_ip(read_failures('SSH.log'))
-
-print(len(test['173.234.31.186']))
-
-print(is_suspicious([100, 200, 350]))
-print(is_suspicious([100, 500, 900]))
-print(is_suspicious([100, 200]))
-
-show_suspicious({'1.1.1.1': [100, 200, 350], '2.2.2.2': [100, 500, 900]})
+show_suspicious(detected_errors)
