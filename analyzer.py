@@ -66,5 +66,9 @@ print(f'There are: {sum(ip_failures.values())} failed attempts')
 for line in example:
     print(extract_time(line))
     print(to_seconds(extract_time(line)))
-    print(times_by_ip(extract_ip(line)))
 
+print(times_by_ip(example))
+
+test = times_by_ip(read_failures('SSH.log'))
+
+print(len(test['173.234.31.186']))
